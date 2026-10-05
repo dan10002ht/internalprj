@@ -75,7 +75,7 @@ export function ResultView({ day, section, mode, qs, records, onRestart }: {
           <p className="text-sm opacity-90">{section.title}</p>
           <p className="mt-2 text-5xl font-black tabular-nums">{correct}/{m} <span className="text-2xl font-bold">câu đúng</span></p>
           <p className="mt-2 opacity-95">{comment(score, section.passThreshold, mode)}</p>
-          {hints > 0 && <p className="mt-1 text-sm opacity-90">Bạn có dùng gợi ý ở {hints} câu nên điểm tính là {score}%. Nếu tự làm hết thì sẽ là {raw}% — lần sau thử tự nghĩ thêm 10 giây trước khi mở gợi ý nhé.</p>}
+          {score !== raw && <p className="mt-1 text-sm opacity-90">Bạn có dùng gợi ý ở {hints} câu nên điểm tính là {score}%. Nếu tự làm hết thì sẽ là {raw}% — lần sau thử tự nghĩ thêm 10 giây trước khi mở gợi ý nhé.</p>}
           {bonusTotal > 0 && <p className="mt-1 text-sm opacity-90">Câu luyện thêm: đúng {bonusCorrect}/{bonusTotal} (không tính vào điểm đề).</p>}
         </div>
 

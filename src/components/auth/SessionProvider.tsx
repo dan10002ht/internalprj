@@ -61,16 +61,16 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isPublic = PUBLIC_PATHS.includes(pathname);
 
-  // Hỏi server xem đang đăng nhập bằng tài khoản nào
+  // Trang đăng nhập không cần dò phiên; sau đăng nhập form gọi refresh.
   useEffect(() => {
     let alive = true;
-    void fetchMe().then((u) => {
+    void (isPublic ? Promise.resolve(null) : fetchMe()).then((u) => {
       if (!alive) return;
       setUser(u);
       setLoading(false);
     });
     return () => { alive = false; };
-  }, []);
+  }, [isPublic]);
 
   const refresh = useCallback(async () => {
     const u = await fetchMe();

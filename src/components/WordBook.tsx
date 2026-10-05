@@ -58,7 +58,7 @@ export function WordBook() {
         <div className="flex flex-wrap gap-1 rounded-xl bg-slate-100 p-1">
           {(['all', 'lookup', 'wrong', 'marked'] as const).map((k) => (
             <button key={k} type="button" onClick={() => setFilter(k)}
-              className={clsx('rounded-lg px-3 py-1.5 text-sm font-semibold', filter === k ? 'bg-white text-slate-900 shadow' : 'text-slate-500')}>
+              className={clsx('min-h-10 min-w-10 rounded-lg px-3 py-1.5 text-sm font-semibold', filter === k ? 'bg-white text-slate-900 shadow' : 'text-slate-500')}>
               {k === 'all' ? 'Tất cả' : SOURCE_LABEL[k]} ({counts[k]})
             </button>
           ))}
@@ -91,8 +91,8 @@ export function WordBook() {
                     </div>
                   </div>
                   <div className="flex shrink-0 flex-col items-end gap-2">
-                    <button type="button" onClick={() => speak(e.word)} className="text-lg" aria-label={`Nghe ${e.word}`}>🔊</button>
-                    <button type="button" onClick={() => remove(e.word)} className="text-xs text-slate-400 hover:text-rose-600">Bỏ khỏi sổ</button>
+                    <button type="button" onClick={() => speak(e.word)} className="min-h-10 min-w-10 rounded-lg text-lg" aria-label={`Nghe ${e.word}`}>🔊</button>
+                    <button type="button" onClick={() => remove(e.word)} className="min-h-10 min-w-10 rounded-lg px-2 text-xs text-slate-400 hover:text-rose-600">Bỏ khỏi sổ</button>
                   </div>
                 </div>
               );

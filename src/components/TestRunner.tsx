@@ -276,13 +276,13 @@ function Session({ day, section, mode, ids, onRestart }: {
       <header className="sticky top-0 z-20">
         {/* Nền đặt ở lớp con để Safari 26 không phủ toolbar lên header sticky */}
         <div aria-hidden className="absolute inset-0 -z-10 bg-white/95 backdrop-blur border-b border-slate-200" />
-        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center gap-3">
-          <Link href={`/day/${day.dayId}`} className="text-slate-500 hover:text-slate-900 text-sm">← Về ngày học</Link>
-          <div className="flex-1 min-w-0">
+        <div className="mx-auto max-w-6xl px-4 py-3 grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 sm:flex">
+          <Link href={`/day/${day.dayId}`} className="min-h-10 flex items-center whitespace-nowrap text-slate-500 hover:text-slate-900 text-sm sm:shrink-0">← Về ngày học</Link>
+          <div className="col-span-2 row-start-2 flex-1 min-w-0 sm:order-none">
             <p className="font-bold truncate">{section.title}</p>
             <p className="text-xs text-slate-500">{MODE_LABEL[mode]} · Câu {idx + 1}/{n} · Đã làm {answeredCount}</p>
           </div>
-          <div className={clsx('rounded-lg px-3 py-1.5 font-mono font-bold text-sm tabular-nums',
+          <div className={clsx('col-start-2 row-start-1 shrink-0 rounded-lg px-3 py-1.5 font-mono font-bold text-sm tabular-nums',
             timed ? (remaining < 60 ? 'bg-rose-100 text-rose-700 animate-pulse' : 'bg-slate-900 text-white') : 'bg-slate-100 text-slate-600')}>
             ⏱ {timed ? fmtTime(remaining) : fmtTime(elapsedSec)}
           </div>
@@ -373,7 +373,7 @@ function Session({ day, section, mode, ids, onRestart }: {
                 {sheetOpen ? 'Ẩn phiếu' : 'Phiếu tô đáp án'}
               </button>
             )}
-            {mode === 'exam' && (
+            {(idx < n - 1 || (isPractice && !isChecked)) && (
               <button type="button" onClick={trySubmit} className="rounded-xl border-2 border-slate-900 px-4 py-2.5 font-semibold">Nộp bài</button>
             )}
             <button type="button" onClick={primary} disabled={isPractice && !isChecked && !answered}

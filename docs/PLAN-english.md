@@ -642,8 +642,6 @@ bình có thể không nắm:
 
 | Vị trí | Chữ hiện tại | Gợi ý |
 |---|---|---|
-| `formats/QuestionView.tsx` (`FORMAT_LABEL`) | "Điền từ (word bank)" | "Điền từ cho sẵn" |
-| `formats/QuestionView.tsx` (`FORMAT_LABEL`) | "Word form" | "Dạng từ (word form)" |
 | `DayView.tsx`, `WordBook.tsx` | "Mini test", "Warm-up", "Round cuối" | Giữ nếu coi là tên riêng của sản phẩm; nếu không thì Việt hóa |
 
 ### 17.5 Hạn chế kỹ thuật đã biết
@@ -674,44 +672,8 @@ trong từ vựng Ngày 2, và một cụm bị khai trùng hai lần.
 
 ### 17.7 Lỗi từ test tự động — còn mở
 
-> Lượt test Playwright 05/10/2026 trên Chromium, viewport 390×844 (điện thoại) và
-> desktop. Lỗi **thanh trên cùng bị vỡ trên điện thoại đã sửa**; dưới đây là phần
-> còn lại.
-
-**Lỗi chức năng / nội dung**
-
-| Vấn đề | Chi tiết | Vị trí |
-|---|---|---|
-| Câu thông báo điểm tự mâu thuẫn | Trang kết quả hiện *"điểm tính là 14%. Nếu tự làm hết thì sẽ là 14%"* — hai số trùng nhau vì đều đã làm tròn, khi chênh lệch dưới 0,5% thì câu nhắc thành vô nghĩa. Chỉ nên hiện khi `score !== raw` | `ResultView.tsx` (dòng in `{score}` và `{raw}`) |
-| Dashboard không phản ánh bài đang làm dở | Làm Mini 1 được 14% nhưng thẻ Ngày 1 vẫn "Xong 0/6 bài", thanh tiến độ 0%. Đúng theo logic `passThreshold` nhưng học sinh dễ tưởng mất dữ liệu — trang `/day/1` lại hiện đúng "14% · tốt nhất · 1 lần" | `Dashboard.tsx` hàm `dayStats` |
-| Không có nút "Nộp bài" riêng ở chế độ luyện tập | Phải tới câu cuối **và** bấm Kiểm tra thì nút chính mới đổi thành "Nộp bài". Muốn nộp giữa chừng phải lách qua dải chấm tiến độ | `TestRunner.tsx` hàm `primary` |
-
-**Lỗi console**
-
-| Vấn đề | Chi tiết | Vị trí |
-|---|---|---|
-| Gọi API trước khi kiểm tra quyền | Học sinh mở `/gv` thì component gọi `GET /api/teacher/students` ngay trong `useEffect` rồi mới xét `user.role`, nên luôn đẻ ra 403 kèm 2 dòng `console.error` và 1 request thừa. Nên chặn gọi khi `role !== 'teacher'` | `Teacher.tsx` useEffect nạp danh sách |
-| `GET /api/auth/me → 401` ở `/login` | Đúng về mặt logic (chưa đăng nhập) nhưng bị ghi như lỗi trong console | `SessionProvider.tsx` |
-
-**Vùng chạm nhỏ hơn 40px trên điện thoại**
-
-Thanh trên cùng đã sửa. Còn lại:
-
-| Nút | Kích thước đo được | Vị trí |
-|---|---|---|
-| "Bỏ khỏi sổ" | **60×16** — nhỏ nhất, dễ bấm nhầm sang nút khác | `WordBook.tsx` |
-| Nút 🔊 nghe phát âm | 25×28 | `WordBook.tsx`, `VocabStudy.tsx` |
-| 4 nút lọc Sổ từ | cao 32 | `WordBook.tsx` |
-| 5 nút chuyển chế độ / lọc từ vựng | cao 32 | `VocabStudy.tsx` |
-
-**Lỗi bố cục còn lại**
-
-Header màn làm bài chật ở điện thoại: dòng "Luyện tập · Câu 1/14 · Đã làm 0"
-xuống hai dòng và ép sát dải chấm tiến độ — `TestRunner.tsx`, phần header sticky.
-
-**Điểm tốt cần giữ:** không có tràn ngang ở bất kỳ trang nào
-(`scrollWidth == clientWidth` tại 390px), không có lỗi hydration, không có
-`pageerror`, không có HTTP 5xx trong suốt phiên test.
+Các lỗi chức năng, console, vùng chạm và header được nêu ở lượt test 05/10/2026
+đã sửa; xem mục 18.5. Phạm vi chưa kiểm chứng vẫn ghi riêng ở 17.8.
 
 ### 17.8 Phạm vi test chưa phủ
 
@@ -878,3 +840,54 @@ lên. Bài học: thêm breakpoint tuỳ chỉnh thì phải khai báo trong `@t
 `globals.css` rồi kiểm tra lại, đừng cho rằng Tailwind có sẵn.
 
 Phần lỗi còn mở và những gì test chưa phủ: xem mục 17.7 và 17.8.
+
+### 18.5 Luồng giáo viên → học sinh và giao diện điện thoại — đã sửa
+
+**Điểm kết quả trùng nhau:** dùng gợi ý ở câu sai có thể khiến điểm thô và điểm
+sau trừ gợi ý đều bằng 0; làm tròn cũng có thể khiến hai số bằng nhau. Câu nhắc
+“nếu tự làm hết” khi đó không cung cấp thông tin. Đã sửa: chỉ hiện khi hai điểm
+hiển thị khác nhau (`score !== raw`).
+
+**Dashboard chỉ đếm bài đạt:** học sinh nộp Mini 1 giữa chừng thấy “Xong 0/6” và
+thanh tiến độ rỗng, dễ tưởng kết quả bị mất. Đã sửa: thẻ ngày thêm “Đang luyện”
+với tên bài chưa đạt và điểm tốt nhất đã lưu. Số bài xong, thanh tiến độ và
+`passThreshold` giữ nguyên; đây là kết quả luyện đã nộp, không phải lưu bản nháp
+câu trả lời khi rời màn làm bài.
+
+**Luyện tập thiếu đường nộp bài:** phải đi tới câu cuối và kiểm tra mới nộp được,
+khó chủ động dừng buổi học. Đã sửa: có nút “Nộp bài” riêng cả khi đang luyện và
+chưa kiểm tra câu hiện tại; vẫn xác nhận nếu còn câu chưa làm, và tránh hai nút
+cùng tên ở câu cuối đã kiểm tra.
+
+**Request không cần thiết:** học sinh mở `/gv` gọi API giáo viên rồi nhận 403,
+còn mở `/login` chưa có phiên gọi `/api/auth/me` rồi nhận 401 trong console trình
+duyệt. Đã sửa: effect nạp học sinh chỉ chạy với role giáo viên; trang đăng nhập
+không dò phiên, sau đăng nhập form vẫn gọi `refresh` và các trang riêng vẫn xác
+thực với server. Không bỏ kiểm tra quyền phía API.
+
+**Vùng chạm và header 390px:** nút “Bỏ khỏi sổ”, nút nghe và các bộ lọc Sổ từ /
+Học từ vựng nhỏ khiến dễ bấm hụt; link quay lại và đồng hồ ép dòng trạng thái
+bài làm xuống hai dòng. Đã sửa: các nút này có vùng chạm tối thiểu 40×40px,
+header màn hẹp đưa tiêu đề và trạng thái xuống một hàng riêng dưới link / đồng hồ.
+
+**Tên dạng bài:** “Điền từ (word bank)” và “Word form” khiến học sinh phải đoán
+thuật ngữ. Đã sửa: “Điền từ cho sẵn” và “Dạng từ (word form)”.
+
+**Test hồi quy:** thêm `e2e/teacher-student.spec.ts` với đăng nhập giáo viên,
+tạo học sinh ở `/gv`, đăng nhập học sinh, Mini 1 → kết quả → Dashboard, reload
+vẫn giữ điểm tốt nhất, không gọi API giáo viên khi học sinh mở `/gv`, không dò
+phiên trên `/login`, kiểm vùng chạm 40px và header không tràn ngang ở 390×844.
+Playwright nhận `PLAYWRIGHT_BASE_URL` để chạy cổng riêng cho từng worktree.
+
+
+**Kiểm chứng lượt sửa:** `npm ci`, `check-data`, lint, tsc và build đều exit 0;
+Playwright `app.spec.ts` + `teacher-student.spec.ts` đạt 2/2 ở cổng 3211 với
+`next dev` và kho JSON local mới. Lần tsc trước khi chạy Next thiếu
+`PageProps` / `LayoutProps`; sau khi Next sinh kiểu thì tsc đạt, không cần sửa
+các trang ngoài phạm vi. Kiểm ảnh header 390px xác nhận trạng thái nằm một dòng.
+
+**Phát hiện ngoài các mục được sửa:** test cũ vẫn ghi vùng chạm nhỏ ở dải chấm
+chuyển câu (22×8px), và một 401 của `PUT /api/progress` sau đăng xuất do lịch
+đồng bộ còn chờ; đây không phải request `/api/auth/me` trên trang đăng nhập.
+Không có request 403 API giáo viên trong luồng học sinh mới. Hai phát hiện này
+cần lượt sửa riêng; không thay logic đồng bộ hay dải chấm trong lượt này.

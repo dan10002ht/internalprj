@@ -9,8 +9,8 @@ import { Categorize, ClozeBank, ClozeChoice, TapSegment, TextAnswer } from './Mi
 export const FORMAT_LABEL: Record<string, string> = {
   mcq: 'Trắc nghiệm', trueFalse: 'Đúng / Sai', oddOneOut: 'Từ khác nhóm', multiSelect: 'Chọn nhiều',
   insertSentence: 'Chèn câu', tapSegment: 'Chạm chọn', match: 'Nối cặp', wordOrdering: 'Ghép câu',
-  jumbledOrder: 'Sắp xếp', categorize: 'Phân loại', clozeBank: 'Điền từ (word bank)', clozeChoice: 'Điền khuyết', fillBlank: 'Điền từ',
-  scramble: 'Xếp chữ cái', translateToEn: 'Dịch Việt → Anh', wordFormInput: 'Word form', dictation: 'Nghe & chép',
+  jumbledOrder: 'Sắp xếp', categorize: 'Phân loại', clozeBank: 'Điền từ cho sẵn', clozeChoice: 'Điền khuyết', fillBlank: 'Điền từ',
+  scramble: 'Xếp chữ cái', translateToEn: 'Dịch Việt → Anh', wordFormInput: 'Dạng từ (word form)', dictation: 'Nghe & chép',
 };
 
 export function QuestionView(props: FormatProps) {

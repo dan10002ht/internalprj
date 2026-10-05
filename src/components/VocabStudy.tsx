@@ -82,7 +82,7 @@ export function VocabStudy({ dayId }: { dayId: number }) {
           <div className="flex gap-1 rounded-xl bg-slate-100 p-1">
             {(['cards', 'list'] as const).map((k) => (
               <button key={k} type="button" onClick={() => setView(k)}
-                className={clsx('rounded-lg px-4 py-1.5 text-sm font-semibold', view === k ? 'bg-white shadow text-slate-900' : 'text-slate-500')}>
+                className={clsx('min-h-10 min-w-10 rounded-lg px-4 py-1.5 text-sm font-semibold', view === k ? 'bg-white shadow text-slate-900' : 'text-slate-500')}>
                 {k === 'cards' ? '🃏 Thẻ từ' : '📋 Danh sách'}
               </button>
             ))}
@@ -90,7 +90,7 @@ export function VocabStudy({ dayId }: { dayId: number }) {
           <div className="flex gap-1 rounded-xl bg-slate-100 p-1">
             {([['all', 'Tất cả'], ['word', 'Từ đơn'], ['phrase', 'Cụm từ']] as const).map(([k, label]) => (
               <button key={k} type="button" onClick={() => { setKind(k); setI(0); setFlipped(false); }}
-                className={clsx('rounded-lg px-3 py-1.5 text-sm font-semibold', kind === k ? 'bg-white shadow text-slate-900' : 'text-slate-500')}>
+                className={clsx('min-h-10 min-w-10 rounded-lg px-3 py-1.5 text-sm font-semibold', kind === k ? 'bg-white shadow text-slate-900' : 'text-slate-500')}>
                 {label}
               </button>
             ))}
@@ -121,7 +121,7 @@ export function VocabStudy({ dayId }: { dayId: number }) {
                     <p className="text-xs text-slate-500 mt-1">📖 {w.exampleFromPassage}</p>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
-                    <button type="button" onClick={() => speak(w.word)} className="text-lg" aria-label={`Nghe ${w.word}`}>🔊</button>
+                    <button type="button" onClick={() => speak(w.word)} className="min-h-10 min-w-10 rounded-lg text-lg" aria-label={`Nghe ${w.word}`}>🔊</button>
                     {m?.mastered ? <span className="text-xs text-emerald-600 font-semibold">Đã thuộc</span>
                       : m?.wrong ? <span className="text-xs text-rose-600 font-semibold">Cần ôn</span> : null}
                   </div>

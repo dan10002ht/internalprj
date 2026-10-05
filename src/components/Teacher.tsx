@@ -53,6 +53,7 @@ export function Teacher() {
   }, []);
 
   useEffect(() => {
+    if (user?.role !== 'teacher') return;
     let alive = true;
     void fetchRows().then((d) => {
       if (!alive) return;
@@ -60,7 +61,7 @@ export function Teacher() {
       setError(d.error);
     });
     return () => { alive = false; };
-  }, []);
+  }, [user?.role]);
 
   const create = async (e: React.FormEvent) => {
     e.preventDefault();

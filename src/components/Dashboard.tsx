@@ -13,8 +13,12 @@ export function dayStats(day: DayContent, student: StudentProgress) {
     const p = student.sections[secKey(day.dayId, s.id)];
     return p && (s.passThreshold === 0 || p.passed);
   }).length;
+  const practicing = day.sections.filter((s) => {
+    const p = student.sections[secKey(day.dayId, s.id)];
+    return p && p.attempts > 0 && s.passThreshold > 0 && !p.passed;
+  }).map((s) => ({ title: s.title, bestScore: student.sections[secKey(day.dayId, s.id)].bestScore }));
   const mastered = day.vocab.filter((v) => student.vocabMastery[v.word]?.mastered).length;
-  return { done, total: day.sections.length, mastered, vocabTotal: day.vocab.length };
+  return { done, practicing, total: day.sections.length, mastered, vocabTotal: day.vocab.length };
 }
 
 export function Dashboard() {
@@ -62,6 +66,9 @@ export function Dashboard() {
                   <div className="h-full bg-indigo-500" style={{ width: `${(st.done / st.total) * 100}%` }} />
                 </div>
                 <p className="mt-2 text-xs text-slate-500">Xong {st.done}/{st.total} bài · thuộc {st.mastered}/{st.vocabTotal} từ</p>
+                {st.practicing.map((p) => (
+                  <p key={p.title} className="mt-1 text-xs text-indigo-600">Đang luyện: {p.title} · {p.bestScore}% tốt nhất</p>
+                ))}
               </Link>
             );
           })}

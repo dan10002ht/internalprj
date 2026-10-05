@@ -9,7 +9,7 @@ export default defineConfig({
   expect: { timeout: 15_000 },
   reporter: [['list']],
   use: {
-    baseURL: 'http://localhost:3210',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3210',
     headless: true,
     screenshot: 'on',
     trace: 'retain-on-failure',
