@@ -19,12 +19,16 @@ interface SessionValue {
   /** Trạng thái đồng bộ tiến độ lên server */
   saving: boolean;
   savedAt: string | null;
+  /** Đã nạp thành công tiến độ server; chỉ cờ này được mở khóa PUT. */
+  syncedFor: string | null;
+  /** Đủ dữ liệu chọn pool Warm-up, gồm bản local khi lỗi/timeout. */
+  progressReadyFor: string | null;
   refresh: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
 const Ctx = createContext<SessionValue>({
-  user: null, loading: true, saving: false, savedAt: null,
+  user: null, loading: true, saving: false, savedAt: null, syncedFor: null, progressReadyFor: null,
   refresh: async () => {}, logout: async () => {},
 });
 
@@ -34,6 +38,8 @@ export const useSession = () => useContext(Ctx);
 const PUBLIC_PATHS = ['/login'];
 
 const SAVE_DELAY_MS = 1200;
+// Mạng treo vẫn cho vào bài với bản local sau tối đa 4 giây.
+const PROGRESS_LOAD_TIMEOUT_MS = 4000;
 
 const fetchMe = async (): Promise<SessionUser | null> => {
   try {
@@ -57,6 +63,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [savedAt, setSavedAt] = useState<string | null>(null);
   /** Id tài khoản đã nạp xong tiến độ — chỉ khi khớp user.id mới được đẩy lên server */
   const [syncedFor, setSyncedFor] = useState<string | null>(null);
+  const [progressReadyFor, setProgressReadyFor] = useState<string | null>(null);
   const router = useRouter();
   const pathname = usePathname();
   const isPublic = PUBLIC_PATHS.includes(pathname);
@@ -73,6 +80,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   }, [isPublic]);
 
   const refresh = useCallback(async () => {
+    setSyncedFor(null);
     const u = await fetchMe();
     setUser(u);
     setLoading(false);
@@ -88,11 +96,30 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     if (!user) return;
     let alive = true;
     const userId = user.id;
+    const controller = new AbortController();
+    let retryTimer: ReturnType<typeof setTimeout> | null = null;
+    let retryAttempt = 0;
+    let inFlight = false;
+    let synced = false;
+    let unauthorized = false;
+    const readyWithLocal = () => {
+      if (!alive) return;
+      const { ownerId, replaceStudent } = useProgress.getState();
+      if (ownerId !== userId) replaceStudent(userId, null);
+      setProgressReadyFor(userId);
+    };
+    // Timeout only unlocks the UI. Keep GET alive to hydrate before allowing PUT.
+    const loadTimeout = setTimeout(readyWithLocal, PROGRESS_LOAD_TIMEOUT_MS);
 
-    void (async () => {
+    const loadProgress = async () => {
+      if (!alive || inFlight || synced || unauthorized) return;
+      if (retryTimer) clearTimeout(retryTimer);
+      retryTimer = null;
+      inFlight = true;
       const { ownerId, student, replaceStudent } = useProgress.getState();
       try {
-        const r = await fetch('/api/progress', { cache: 'no-store' });
+        const r = await fetch('/api/progress', { cache: 'no-store', signal: controller.signal });
+        if (r.status === 401) unauthorized = true;
         if (!r.ok) throw new Error('không tải được');
         const d = (await r.json()) as { progress: StudentProgress | null; updatedAt: string | null };
         if (!alive) return;
@@ -104,16 +131,39 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           // Server mới hơn (học sinh vừa làm ở máy khác) → lấy bản server
           replaceStudent(userId, d.progress);
         }
+        synced = true;
         setSavedAt(d.updatedAt);
+        setSyncedFor(userId);
+        setProgressReadyFor(userId);
       } catch {
         // Không gọi được server thì vẫn cho làm bài với bản trên máy
-        if (alive && ownerId !== userId) replaceStudent(userId, null);
+        readyWithLocal();
+        if (alive && !unauthorized) {
+          const delays = [2000, 5000, 10000, 30000];
+          const delay = delays[Math.min(retryAttempt++, delays.length - 1)];
+          retryTimer = setTimeout(() => void loadProgress(), delay);
+        }
       } finally {
-        if (alive) setSyncedFor(userId);
+        inFlight = false;
+        clearTimeout(loadTimeout);
       }
-    })();
+    };
+    const retryNow = () => { void loadProgress(); };
+    const retryWhenVisible = () => {
+      if (document.visibilityState === 'visible') retryNow();
+    };
+    window.addEventListener('online', retryNow);
+    document.addEventListener('visibilitychange', retryWhenVisible);
+    void loadProgress();
 
-    return () => { alive = false; };
+    return () => {
+      alive = false;
+      clearTimeout(loadTimeout);
+      if (retryTimer) clearTimeout(retryTimer);
+      window.removeEventListener('online', retryNow);
+      document.removeEventListener('visibilitychange', retryWhenVisible);
+      controller.abort();
+    };
   }, [user]);
 
   // Đẩy tiến độ lên server mỗi khi đổi
@@ -168,7 +218,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   if (!user && !isPublic) return <div className="p-10 text-center text-slate-400">Đang chuyển tới trang đăng nhập…</div>;
 
   return (
-    <Ctx.Provider value={{ user, loading, saving, savedAt, refresh, logout }}>
+    <Ctx.Provider value={{ user, loading, saving, savedAt, syncedFor, progressReadyFor, refresh, logout }}>
       {children}
     </Ctx.Provider>
   );

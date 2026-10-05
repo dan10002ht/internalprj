@@ -18,10 +18,10 @@ const fmt = (s: number) => `${Math.floor(Math.max(0, s) / 60)}:${String(Math.max
  * Câu hỏi sinh tại runtime từ từ vựng, kết quả ghi vào lịch ôn nhưng không gate bài sau.
  */
 export function WarmUp(props: { day: DayContent; section: TestSection }) {
-  const { user } = useSession();
+  const { user, progressReadyFor } = useSession();
   const ownerId = useProgress((s) => s.ownerId);
   // Build the fixed question pool only after this account's progress is loaded.
-  if (!user || ownerId !== user.id) return <div className="p-10 text-center text-slate-400">Đang tải…</div>;
+  if (!user || ownerId !== user.id || progressReadyFor !== user.id) return <div className="p-10 text-center text-slate-400">Đang tải…</div>;
   return <WarmUpSession key={user.id} {...props} />;
 }
 
