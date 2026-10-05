@@ -274,7 +274,7 @@ export const mini3: Question[] = [
     stem: 'Parents who have built a family business often expect their children ______.',
     stemVi: 'Những bậc cha mẹ gây dựng doanh nghiệp gia đình thường mong con cái ______.',
     options: ['following in their footsteps', 'to follow in their footsteps', 'follow in their footsteps', 'that they follow in their footsteps'],
-    optionsVi: ['đang nối nghiệp mình', 'nối nghiệp mình', 'nối nghiệp mình', 'rằng họ nối nghiệp mình'],
+    optionsVi: ['đang nối nghiệp mình', 'nối nghiệp mình (to follow)', 'nối nghiệp mình (follow)', 'rằng họ nối nghiệp mình'],
     answer: 1, hintLevels: H('eliminate', 'eliminateTwo', 'meaningVi'),
     explanation: 'Cấu trúc: expect sb TO do sth (mong ai làm gì). Ý lấy từ bài đọc 4.',
     distractorNotes: { 0: 'expect + người + to V, không dùng V-ing ở vị trí này.', 2: 'Thiếu to trước động từ follow.', 3: 'Có thể nói "expect that their children will…", nhưng không nói "expect their children that…".' },

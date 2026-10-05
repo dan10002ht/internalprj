@@ -237,12 +237,18 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "mang sức nặng biểu tượng",
     "meaningEn": "to represent important values beyond the literal meaning",
-    "synonyms": [],
+    "synonyms": [
+      "have symbolic significance"
+    ],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "symbol (n)",
+      "symbolic (adj)",
+      "symbolically (adv)"
+    ],
+    "emoji": "⚖️",
     "collocations": [
-      "carry symbolic weight"
+      "carry symbolic weight in career choices"
     ],
     "exampleFromPassage": "Sociologists who study family expectations point out that career choices carry symbolic weight.",
     "exampleNew": "Career choices can carry symbolic weight in a family.",
@@ -256,12 +262,16 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "được định hình bởi",
     "meaningEn": "to be influenced and formed by something",
-    "synonyms": [],
+    "synonyms": [
+      "be influenced by"
+    ],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "shape (v, n)"
+    ],
+    "emoji": "🧩",
     "collocations": [
-      "be shaped by"
+      "be shaped by economic hardship"
     ],
     "exampleFromPassage": "For an older generation shaped by economic hardship, a stable and respected career represents security; for a younger generation raised in relative comfort, it may represent a cage.",
     "exampleNew": "Our opinions are shaped by our experiences.",
@@ -275,12 +285,18 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "bị nhìn nhận với sự nghi ngại",
     "meaningEn": "to be regarded with doubt or distrust",
-    "synonyms": [],
+    "synonyms": [
+      "be regarded with distrust"
+    ],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "suspect (v)",
+      "suspicion (n)",
+      "suspicious (adj)"
+    ],
+    "emoji": "🤨",
     "collocations": [
-      "be viewed with suspicion"
+      "careers viewed with suspicion by older relatives"
     ],
     "exampleFromPassage": "Careers in digital media, e-commerce or game design are viewed with suspicion by older relatives who associate success with medicine, law or engineering, professions whose prestige they understand.",
     "exampleNew": "New ideas are sometimes viewed with suspicion.",
@@ -296,10 +312,13 @@ export const phraseVocab: VocabItem[] = [
     "meaningEn": "to give up personal goals to satisfy someone else",
     "synonyms": [],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "ambition (n)",
+      "ambitious (adj)"
+    ],
+    "emoji": "🎯",
     "collocations": [
-      "abandon one's ambitions in order to please sb"
+      "abandon their own ambitions in order to please their families"
     ],
     "exampleFromPassage": "Conversely, young people who abandon their own ambitions in order to please their families frequently report feelings of resentment and a loss of direction that can last well into adulthood.",
     "exampleNew": "Do not abandon your ambitions in order to please everyone.",
@@ -314,11 +333,16 @@ export const phraseVocab: VocabItem[] = [
     "meaningVi": "sự mất phương hướng",
     "meaningEn": "a feeling of not knowing what to do with your life",
     "synonyms": [],
-    "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "antonyms": [
+      "a sense of direction"
+    ],
+    "wordFamily": [
+      "lose (v)",
+      "loss (n)"
+    ],
+    "emoji": "🧭",
     "collocations": [
-      "a loss of direction"
+      "report a loss of direction"
     ],
     "exampleFromPassage": "Conversely, young people who abandon their own ambitions in order to please their families frequently report feelings of resentment and a loss of direction that can last well into adulthood.",
     "exampleNew": "Changing jobs left her with a loss of direction.",
@@ -332,12 +356,17 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "kéo dài đến tận tuổi trưởng thành",
     "meaningEn": "to continue far into adult life",
-    "synonyms": [],
+    "synonyms": [
+      "continue well into adulthood"
+    ],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "adult (n, adj)",
+      "adulthood (n)"
+    ],
+    "emoji": "⏳",
     "collocations": [
-      "last well into adulthood"
+      "feelings that last well into adulthood"
     ],
     "exampleFromPassage": "Conversely, young people who abandon their own ambitions in order to please their families frequently report feelings of resentment and a loss of direction that can last well into adulthood.",
     "exampleNew": "These memories can last well into adulthood.",
@@ -353,10 +382,13 @@ export const phraseVocab: VocabItem[] = [
     "meaningEn": "a variety of choices greater than ever before",
     "synonyms": [],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "precedent (n)",
+      "unprecedented (adj)"
+    ],
+    "emoji": "🌐",
     "collocations": [
-      "an unprecedented range of options"
+      "offer young people an unprecedented range of options"
     ],
     "exampleFromPassage": "Yet the modern economy offers young people an unprecedented range of options, many of which did not exist when their parents were young.",
     "exampleNew": "Students now have an unprecedented range of options.",
@@ -370,12 +402,17 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "coi, đối xử với điều gì như là",
     "meaningEn": "to regard or deal with something in a particular way",
-    "synonyms": [],
+    "synonyms": [
+      "regard sth as"
+    ],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "treat (v)",
+      "treatment (n)"
+    ],
+    "emoji": "💬",
     "collocations": [
-      "treat sth as"
+      "treat career choice as a conversation instead of a command"
     ],
     "exampleFromPassage": "When families treat career choice as a conversation instead of a command, the young person gains autonomy while the family retains its most valuable asset, which is not the business itself but the bond between its members.",
     "exampleNew": "We treat each mistake as a chance to learn.",
@@ -390,11 +427,16 @@ export const phraseVocab: VocabItem[] = [
     "meaningVi": "giành được quyền tự chủ",
     "meaningEn": "to obtain the freedom to make your own decisions",
     "synonyms": [],
-    "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "antonyms": [
+      "lose autonomy"
+    ],
+    "wordFamily": [
+      "autonomy (n)",
+      "autonomous (adj)"
+    ],
+    "emoji": "🕊️",
     "collocations": [
-      "gain autonomy"
+      "the young person gains autonomy"
     ],
     "exampleFromPassage": "When families treat career choice as a conversation instead of a command, the young person gains autonomy while the family retains its most valuable asset, which is not the business itself but the bond between its members.",
     "exampleNew": "Teenagers gain autonomy as they grow older.",
@@ -408,12 +450,19 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "giữ lại một tài sản",
     "meaningEn": "to keep something valuable",
-    "synonyms": [],
-    "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "synonyms": [
+      "keep an asset"
+    ],
+    "antonyms": [
+      "lose an asset"
+    ],
+    "wordFamily": [
+      "retain (v)",
+      "retention (n)"
+    ],
+    "emoji": "💎",
     "collocations": [
-      "retain an asset"
+      "the family retains its most valuable asset"
     ],
     "exampleFromPassage": "When families treat career choice as a conversation instead of a command, the young person gains autonomy while the family retains its most valuable asset, which is not the business itself but the bond between its members.",
     "exampleNew": "The company hopes to retain an asset that matters to its future.",
@@ -429,10 +478,13 @@ export const phraseVocab: VocabItem[] = [
     "meaningEn": "the way work is shared among people",
     "synonyms": [],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "divide (v)",
+      "division (n)"
+    ],
+    "emoji": "🧹",
     "collocations": [
-      "the division of labour"
+      "the division of labour within the family"
     ],
     "exampleFromPassage": "For much of the twentieth century, the division of labour within the family followed a familiar pattern: the father was the breadwinner, and the mother was responsible for the home and the children.",
     "exampleNew": "The division of labour should be fair.",
@@ -448,10 +500,12 @@ export const phraseVocab: VocabItem[] = [
     "meaningEn": "to allow very few other choices",
     "synonyms": [],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "alternative (n, adj)"
+    ],
+    "emoji": "🚧",
     "collocations": [
-      "leave few alternatives"
+      "economic conditions left few alternatives"
     ],
     "exampleFromPassage": "These gender roles were rarely questioned, partly because they were reinforced by law, religion and popular culture, and partly because economic conditions left few alternatives.",
     "exampleNew": "The deadline leaves few alternatives.",
@@ -467,10 +521,13 @@ export const phraseVocab: VocabItem[] = [
     "meaningEn": "to keep the beliefs taken for granted in a model",
     "synonyms": [],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "assume (v)",
+      "assumption (n)"
+    ],
+    "emoji": "💭",
     "collocations": [
-      "retain its assumptions"
+      "retain the assumptions of the traditional model"
     ],
     "exampleFromPassage": "Grandparents who grew up under the traditional model often retain its assumptions, even when they no longer defend them openly.",
     "exampleNew": "A group may retain its assumptions even after conditions change.",
@@ -484,12 +541,17 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "được giải quyết thông qua thương lượng",
     "meaningEn": "to be settled by discussion aimed at agreement",
-    "synonyms": [],
+    "synonyms": [
+      "be settled through negotiation"
+    ],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "negotiate (v)",
+      "negotiation (n)"
+    ],
+    "emoji": "🤝",
     "collocations": [
-      "be resolved through negotiation"
+      "conflict resolved through negotiation"
     ],
     "exampleFromPassage": "The first concerns everyday behaviour, such as table manners, dress codes or the acceptable amount of screen time, and is usually resolved through negotiation.",
     "exampleNew": "The conflict can be resolved through negotiation.",
@@ -503,12 +565,16 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "coi điều gì là thiêng liêng",
     "meaningEn": "to consider something deeply important and worthy of respect",
-    "synonyms": [],
+    "synonyms": [
+      "regard sth as sacred"
+    ],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "sacred (adj)"
+    ],
+    "emoji": "🛐",
     "collocations": [
-      "hold sth sacred"
+      "a rejection of what it holds sacred"
     ],
     "exampleFromPassage": "Disagreements of this second kind are far more likely to cause lasting damage, because each side experiences the other's position not merely as different but as a rejection of what it holds sacred.",
     "exampleNew": "Many families hold their traditions sacred.",
@@ -524,10 +590,13 @@ export const phraseVocab: VocabItem[] = [
     "meaningEn": "to understand something using an existing viewpoint",
     "synonyms": [],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "interpret (v)",
+      "interpretation (n)"
+    ],
+    "emoji": "🔍",
     "collocations": [
-      "interpret sth through that lens"
+      "interpret everything she says through that lens"
     ],
     "exampleFromPassage": "A father who has decided that his daughter is \"rebellious\" will interpret everything she says through that lens, just as a teenager who has labelled her parents \"old-fashioned\" will dismiss their advice before it is given.",
     "exampleNew": "He interprets new events through that lens.",
@@ -543,10 +612,12 @@ export const phraseVocab: VocabItem[] = [
     "meaningEn": "to describe someone using a fixed judgement",
     "synonyms": [],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "label (v, n)"
+    ],
+    "emoji": "🏷️",
     "collocations": [
-      "label sb as"
+      "label her parents old-fashioned"
     ],
     "exampleFromPassage": "A father who has decided that his daughter is \"rebellious\" will interpret everything she says through that lens, just as a teenager who has labelled her parents \"old-fashioned\" will dismiss their advice before it is given.",
     "exampleNew": "Do not label someone as lazy without listening.",
@@ -560,12 +631,16 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "một góc nhìn khác",
     "meaningEn": "a different position from which to understand something",
-    "synonyms": [],
+    "synonyms": [
+      "a different perspective"
+    ],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "vantage point (n)"
+    ],
+    "emoji": "👀",
     "collocations": [
-      "a different vantage point"
+      "accept a different vantage point"
     ],
     "exampleFromPassage": "In the end, the goal is not for one generation to convert the other but for each to accept that a different vantage point is not a moral failure.",
     "exampleNew": "Try to understand the problem from a different vantage point.",
@@ -579,12 +654,14 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "tuy nhiên",
     "meaningEn": "used to introduce a contrasting idea",
-    "synonyms": [],
+    "synonyms": [
+      "nevertheless"
+    ],
     "antonyms": [],
     "wordFamily": [],
-    "emoji": "🔗",
+    "emoji": "↔️",
     "collocations": [
-      "however"
+      "There is, however, evidence that the gap can be narrowed"
     ],
     "exampleFromPassage": "There is, however, evidence that the gap can be narrowed.",
     "exampleNew": "The task is difficult; however, we can finish it together.",
@@ -598,12 +675,14 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "tuy vậy, dù thế",
     "meaningEn": "despite what has just been said",
-    "synonyms": [],
+    "synonyms": [
+      "nonetheless"
+    ],
     "antonyms": [],
     "wordFamily": [],
-    "emoji": "🔗",
+    "emoji": "🌦️",
     "collocations": [
-      "nevertheless"
+      "Nevertheless, sociologists caution against dismissing older views"
     ],
     "exampleFromPassage": "Nevertheless, sociologists caution against dismissing older views as mere prejudice.",
     "exampleNew": "It was raining; nevertheless, we went to school.",
@@ -617,12 +696,14 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "ngược lại, xét theo chiều ngược lại",
     "meaningEn": "used to introduce the opposite situation",
-    "synonyms": [],
+    "synonyms": [
+      "in contrast"
+    ],
     "antonyms": [],
     "wordFamily": [],
-    "emoji": "🔗",
+    "emoji": "🔄",
     "collocations": [
-      "conversely"
+      "Conversely, young people who abandon their own ambitions"
     ],
     "exampleFromPassage": "Conversely, young people who abandon their own ambitions in order to please their families frequently report feelings of resentment and a loss of direction that can last well into adulthood.",
     "exampleNew": "Some parents want stability; conversely, their children want adventure.",
@@ -638,10 +719,14 @@ export const phraseVocab: VocabItem[] = [
     "meaningEn": "used when the result is contrary to what is expected",
     "synonyms": [],
     "antonyms": [],
-    "wordFamily": [],
-    "emoji": "🔗",
+    "wordFamily": [
+      "irony (n)",
+      "ironic (adj)",
+      "ironically (adv)"
+    ],
+    "emoji": "🎭",
     "collocations": [
-      "ironically"
+      "Ironically, the very closeness of family life"
     ],
     "exampleFromPassage": "Ironically, the very closeness of family life makes these conflicts harder to manage.",
     "exampleNew": "Ironically, our attempt to save time made the journey longer.",
@@ -655,12 +740,15 @@ export const phraseVocab: VocabItem[] = [
     "partOfSpeech": "phrase",
     "meaningVi": "hơn nữa",
     "meaningEn": "used to add another supporting point",
-    "synonyms": [],
+    "synonyms": [
+      "moreover",
+      "in addition"
+    ],
     "antonyms": [],
     "wordFamily": [],
-    "emoji": "🔗",
+    "emoji": "➕",
     "collocations": [
-      "furthermore"
+      "Furthermore, family members frequently assume"
     ],
     "exampleFromPassage": "Furthermore, family members frequently assume that they already know what the others think, and therefore stop listening.",
     "exampleNew": "The course is useful; furthermore, it is free.",
@@ -973,21 +1061,21 @@ export const phraseMini3: Question[] = [
     instruction: 'Read the paragraph and choose the best option for each blank.',
     stem: 'Chọn phương án đúng cho mỗi chỗ trống.',
     clozeText:
-      'Filial duty is {0} many Asian societies, where respect for parents has been central to family life for centuries. {1} older relatives, a secure job means safety. ' +
-      "Earlier generations worked to create the opportunities that young people now enjoy. Young people's freedoms are {2} the efforts of earlier generations, which made those freedoms possible rather than restricting them. In this discussion, the final conclusion is that {3}, both sides need to listen.",
+      'Filial duty is {0} many Asian societies, where respect for parents has been central to family life for centuries. Older relatives value security above adventure. {1} older relatives, a secure job means safety. ' +
+      "Earlier generations worked to create the opportunities that young people now enjoy. Young people's freedoms are {2} the efforts of earlier generations, which made those freedoms possible rather than restricting them. At first, both sides refused to listen. Their attitude changed only after weeks of dialogue: {3}, both sides began to listen.",
     blanks: ['deeply rooted in', 'In the eyes of', 'built on', 'in the end'],
     blankOptions: [
       ['deeply rooted in', 'completely absent from', 'openly opposed to', 'entirely separate from'],
-      ['In the eyes of', 'In the absence of', 'At the expense of', 'On behalf of'],
+      ['In the eyes of', 'In opposition to', 'At the expense of', 'On behalf of'],
       ['built on', 'held back by', 'cut off from', 'at odds with'],
-      ['in the end', 'in exchange for', 'in addition to', 'in pursuit of'],
+      ['in the end', 'from the outset', 'all along', 'beforehand'],
     ],
     hintLevels: [
       { type: 'custom', text: 'Đọc cả đoạn: chữ hiếu ăn sâu; người lớn xem nghề ổn định là an toàn; tự do có nền tảng từ thế hệ trước; câu cuối kết luận.' },
       { type: 'custom', text: 'Nhớ: rooted IN · in the eyes OF · built ON · in the end (không có "of").' },
       { type: 'custom', text: '(1) deeply rooted in · (2) In the eyes of · (3) built on · (4) in the end' },
     ],
-    explanation: 'Đáp án: deeply rooted in (ăn sâu trong), In the eyes of (theo cách nhìn của), built on (được xây dựng dựa trên), in the end (cuối cùng thì). Các cụm còn lại có thật nhưng sai ý: absent from = vắng mặt, on behalf of = thay mặt, held back by = bị kìm hãm bởi; in exchange for (đổi lấy), in addition to (ngoài), in pursuit of (theo đuổi) cần danh từ hoặc V-ing làm bổ ngữ, không nối trực tiếp với mệnh đề "both sides need to listen".',
+    explanation: 'Đáp án: deeply rooted in (ăn sâu trong), In the eyes of (theo cách nhìn của), built on (được xây dựng dựa trên), in the end (cuối cùng thì). Các cụm còn lại có thật nhưng sai ý: absent from = vắng mặt, in opposition to = trái với, at the expense of = gây thiệt hại cho, on behalf of = thay mặt, held back by = bị kìm hãm bởi. Người lớn coi trọng sự an toàn nên câu sau nói về cách nhìn của họ. Câu cuối mô tả việc hai bên bắt đầu lắng nghe chỉ sau nhiều tuần đối thoại, trái với việc ban đầu không chịu lắng nghe: from the outset = ngay từ đầu, all along = suốt từ đầu đến giờ, beforehand = từ trước đều không đúng mốc thời gian.',
     strategyTag: 'phraseUse',
   },
   {
