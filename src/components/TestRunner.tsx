@@ -124,6 +124,11 @@ function Session({ day, section, mode, ids, onRestart }: {
 
   const q = qs[idx];
   const n = qs.length;
+  // Bonus vẫn có vị trí điều hướng, nhưng không chiếm số câu của đề.
+  const scoredQs = qs.filter((qq) => !qq.bonus);
+  const questionNumbers = new Map(scoredQs.map((qq, i) => [qq.id, i + 1]));
+  const questionNumber = questionNumbers.get(q.id);
+  const questionLabel = q.bonus ? 'Câu thêm' : `Câu ${questionNumber}/${scoredQs.length}`;
   const given = givens[q.id] ?? null;
   const isPractice = mode !== 'exam';
   const isChecked = !!checked[q.id];
@@ -228,7 +233,7 @@ function Session({ day, section, mode, ids, onRestart }: {
   const reveal = isPractice && isChecked;
   const fraction = reveal ? gradeFraction(q, given) : 0;
   const passage = q.passageId ? day.passages.find((p) => p.id === q.passageId) : undefined;
-  const answeredCount = qs.filter((qq) => isAnswered(qq, givens[qq.id] ?? null)).length;
+  const scoredAnsweredCount = scoredQs.filter((qq) => isAnswered(qq, givens[qq.id] ?? null)).length;
 
   // V3 — sau câu từ vựng / paraphrase, hiện một câu nhanh 10 giây về chính từ đó
   const fu = reveal && !followUpDone[q.id] ? fuMap[q.id] ?? null : null;
@@ -247,8 +252,9 @@ function Session({ day, section, mode, ids, onRestart }: {
     trySubmit();
   };
   const trySubmit = () => {
-    const missing = n - answeredCount;
-    const unchecked = isPractice ? qs.filter((qq) => !checked[qq.id]).length : 0;
+    // Câu luyện thêm không cản nộp bài khi các câu tính điểm đã làm xong.
+    const missing = scoredQs.length - scoredAnsweredCount;
+    const unchecked = isPractice ? scoredQs.filter((qq) => !checked[qq.id]).length : 0;
     if ((missing > 0 || unchecked > 0) && !confirm(`Bạn còn ${Math.max(missing, unchecked)} câu chưa làm. Vẫn nộp bài chứ?`)) return;
     finish();
   };
@@ -280,22 +286,27 @@ function Session({ day, section, mode, ids, onRestart }: {
           <Link href={`/day/${day.dayId}`} className="min-h-10 flex items-center whitespace-nowrap text-slate-500 hover:text-slate-900 text-sm sm:shrink-0">← Về ngày học</Link>
           <div className="col-span-2 row-start-2 flex-1 min-w-0 sm:order-none">
             <p className="font-bold truncate">{section.title}</p>
-            <p className="text-xs text-slate-500">{MODE_LABEL[mode]} · Câu {idx + 1}/{n} · Đã làm {answeredCount}</p>
+            <p className="text-xs text-slate-500">{MODE_LABEL[mode]} · {questionLabel} · Đã làm {scoredAnsweredCount}</p>
           </div>
           <div className={clsx('col-start-2 row-start-1 shrink-0 rounded-lg px-3 py-1.5 font-mono font-bold text-sm tabular-nums',
             timed ? (remaining < 60 ? 'bg-rose-100 text-rose-700 animate-pulse' : 'bg-slate-900 text-white') : 'bg-slate-100 text-slate-600')}>
             ⏱ {timed ? fmtTime(remaining) : fmtTime(elapsedSec)}
           </div>
         </div>
-        <div className="mx-auto max-w-6xl px-4 pt-1 pb-2 flex gap-1 overflow-x-auto">
+        <div className="mx-auto max-w-6xl px-4 flex gap-1 overflow-x-auto">
           {qs.map((qq, i) => {
             const done = isAnswered(qq, givens[qq.id] ?? null);
             const res = isPractice && checked[qq.id] ? gradeFraction(qq, givens[qq.id] ?? null) === 1 : null;
             return (
-              <button key={qq.id} type="button" onClick={() => goTo(i)} title={`Câu ${i + 1}`}
-                className={clsx('h-2 min-w-5 flex-1 rounded-full transition',
+              <button key={qq.id} type="button" onClick={() => goTo(i)}
+                title={qq.bonus ? 'Câu thêm' : `Câu ${questionNumbers.get(qq.id)}`}
+                aria-label={qq.bonus ? 'Câu thêm' : `Câu ${questionNumbers.get(qq.id)}`}
+                aria-current={i === idx ? 'step' : undefined}
+                className="h-10 min-w-10 flex-1 shrink-0 flex items-center justify-center px-2 rounded-lg focus-visible:outline-2 focus-visible:outline-indigo-500">
+                <span aria-hidden className={clsx('h-2 w-full rounded-full transition',
                   i === idx && 'ring-2 ring-offset-1 ring-indigo-500',
                   res === true ? 'bg-emerald-500' : res === false ? 'bg-rose-500' : done ? 'bg-indigo-400' : 'bg-slate-200')} />
+              </button>
             );
           })}
         </div>
@@ -315,8 +326,10 @@ function Session({ day, section, mode, ids, onRestart }: {
         <section className="space-y-4">
           <div className="rounded-2xl bg-white border border-slate-200 p-5 sm:p-6 shadow-sm space-y-5">
             <div className="flex flex-wrap items-center gap-2 text-xs">
-              {isExam ? (
-                <span className="rounded-full bg-slate-900 text-white px-2.5 py-1 font-semibold">Question {idx + 1}</span>
+              {q.bonus ? (
+                <span className="rounded-full bg-amber-100 text-amber-800 px-2.5 py-1 font-semibold">Câu thêm</span>
+              ) : isExam ? (
+                <span className="rounded-full bg-slate-900 text-white px-2.5 py-1 font-semibold">Question {questionNumber}</span>
               ) : (
                 <span className="rounded-full bg-indigo-100 text-indigo-700 px-2.5 py-1 font-semibold">{FORMAT_LABEL[q.format]}</span>
               )}
