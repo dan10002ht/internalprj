@@ -233,7 +233,7 @@ for (const day of days) {
         await page.goto(`/day/${day.dayId}/test/${chain[stage + 1]}`);
         await expect(page.getByText('Bài này chưa mở', { exact: false })).toBeVisible();
       }
-      if (sectionId === 'mini1' || sectionId === 'mini2') {
+      if (sectionId.startsWith('mini')) {
         await page.goto(`/day/${day.dayId}/test/${sectionId}`);
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
         const questions = day.questions.filter(q => section.questionIds.includes(q.id));
