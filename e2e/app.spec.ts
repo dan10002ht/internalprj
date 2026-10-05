@@ -98,7 +98,8 @@ async function answerCurrent(page: Page): Promise<string> {
     await textInput.first().fill('x');
     return 'nhap-text';
   }
-  const btns = card.locator('button');
+  // Đáp án bị gợi ý loại vẫn enabled nhưng không nhận thao tác click.
+  const btns = card.locator('button:not(.pointer-events-none)');
   const n = await btns.count();
   for (let k = 0; k < n; k++) {
     const el = btns.nth(k);
