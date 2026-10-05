@@ -54,7 +54,7 @@ export function StudentReport({ student }: { student: StudentProgress }) {
   const maxWrong = Math.max(1, ...[...byTag.values()].map((t) => t.count));
 
   const vocabRows = allVocab
-    .map((v) => ({ v, m: student.vocabMastery[v.word] }))
+    .map((v, index) => ({ v, index, m: student.vocabMastery[v.word] }))
     .filter(({ m }) => (vocabFilter === 'all' ? !!m : vocabFilter === 'mastered' ? !!m?.mastered : isDue(m)));
 
   return (
@@ -218,8 +218,8 @@ export function StudentReport({ student }: { student: StudentProgress }) {
                 </tr>
               </thead>
               <tbody>
-                {vocabRows.map(({ v, m }) => (
-                  <tr key={v.word} className="border-b border-slate-100 last:border-0">
+                {vocabRows.map(({ v, m, index }) => (
+                  <tr key={`${index}:${v.word}`} className="border-b border-slate-100 last:border-0">
                     <td className="py-2 pr-3">
                       <span className="font-semibold">{v.word}</span>
                       <span className="ml-1.5 text-slate-500">{v.meaningVi}</span>

@@ -68,6 +68,7 @@ export function DayView({ dayId }: { dayId: number }) {
   if (!day) return <div className="p-10 text-center">Chưa có nội dung cho ngày {dayId}. <Link href="/dashboard" className="text-indigo-600">Quay lại</Link></div>;
   if (!student) return null;
 
+  const warmups = day.sections.filter((s) => s.kind === 'warmup');
   const minis = day.sections.filter((s) => s.kind === 'mini');
   const exams = day.sections.filter((s) => s.kind === 'exam');
   const finals = day.sections.filter((s) => s.kind === 'final');
@@ -82,6 +83,13 @@ export function DayView({ dayId }: { dayId: number }) {
           <p className="text-sm font-semibold text-indigo-600">Ngày {day.dayId} · {day.topic}</p>
           <h1 className="text-3xl font-black tracking-tight">{day.title}</h1>
         </div>
+
+        {warmups.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400">Ôn từ ngày trước</h2>
+            {warmups.map((s, i) => card(s, i + 1))}
+          </section>
+        )}
 
         <section className="space-y-3">
           <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400">Học từ vựng</h2>
