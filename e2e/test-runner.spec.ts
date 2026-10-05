@@ -72,6 +72,48 @@ test('Đề 1 ngày 2 giữ 32 số câu gốc; bonus không chiếm số và ti
 });
 
 
+test('Nộp Đề 1 ngày 2 chỉ nhắc câu tính điểm chưa làm', async ({ page }) => {
+  await page.goto('/day/2/test/de1');
+  await enterQuestions(page);
+  await page.locator('main section').getByRole('button').first().click();
+  await page.getByRole('button', { name: 'Kiểm tra', exact: true }).click();
+  await page.locator('header button[title="Câu thêm"]').first().click();
+  await enterQuestions(page);
+  await page.locator('main section').getByRole('button').first().click();
+  await page.getByRole('button', { name: 'Kiểm tra', exact: true }).click();
+  await expect(page.locator('header p').last()).toContainText('Đã làm 1');
+
+  const confirmation = page.waitForEvent('dialog');
+  const submit = page.getByRole('button', { name: 'Nộp bài', exact: true }).first().click();
+  const dialog = await confirmation;
+  const message = dialog.message();
+  await dialog.dismiss();
+  await submit;
+  expect(message).toBe('Bạn còn 31 câu chưa làm. Vẫn nộp bài chứ?');
+});
+
+test('Nộp Đề 1 không cần xác nhận khi chỉ còn bonus chưa làm', async ({ page }) => {
+  await page.goto('/day/2/test/de1');
+  await enterQuestions(page);
+  const scored = page.locator('header button[title^="Câu "]:not([title="Câu thêm"])');
+  await expect(scored).toHaveCount(32);
+  for (let i = 0; i < 32; i++) {
+    await scored.nth(i).click();
+    await enterQuestions(page);
+    await page.locator('main section').getByRole('button').first().click();
+    await page.getByRole('button', { name: 'Kiểm tra', exact: true }).click();
+  }
+  await expect(page.locator('header p').last()).toContainText('Đã làm 32');
+  const confirmations: string[] = [];
+  page.on('dialog', async dialog => {
+    confirmations.push(dialog.message());
+    await dialog.accept();
+  });
+  await page.getByRole('button', { name: 'Nộp bài', exact: true }).first().click();
+  await expect(page.getByText('câu đúng', { exact: true })).toBeVisible();
+  expect(confirmations).toEqual([]);
+});
+
 test('Đề 2 hai ngày giữ tổng câu và số Question', async ({ page }) => {
   for (const [day, total] of [[1, 18], [2, 20]]) {
     await page.goto(`/day/${day}/test/de2`);

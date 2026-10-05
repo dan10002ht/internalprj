@@ -233,7 +233,6 @@ function Session({ day, section, mode, ids, onRestart }: {
   const reveal = isPractice && isChecked;
   const fraction = reveal ? gradeFraction(q, given) : 0;
   const passage = q.passageId ? day.passages.find((p) => p.id === q.passageId) : undefined;
-  const answeredCount = qs.filter((qq) => isAnswered(qq, givens[qq.id] ?? null)).length;
   const scoredAnsweredCount = scoredQs.filter((qq) => isAnswered(qq, givens[qq.id] ?? null)).length;
 
   // V3 — sau câu từ vựng / paraphrase, hiện một câu nhanh 10 giây về chính từ đó
@@ -253,8 +252,9 @@ function Session({ day, section, mode, ids, onRestart }: {
     trySubmit();
   };
   const trySubmit = () => {
-    const missing = n - answeredCount;
-    const unchecked = isPractice ? qs.filter((qq) => !checked[qq.id]).length : 0;
+    // Câu luyện thêm không cản nộp bài khi các câu tính điểm đã làm xong.
+    const missing = scoredQs.length - scoredAnsweredCount;
+    const unchecked = isPractice ? scoredQs.filter((qq) => !checked[qq.id]).length : 0;
     if ((missing > 0 || unchecked > 0) && !confirm(`Bạn còn ${Math.max(missing, unchecked)} câu chưa làm. Vẫn nộp bài chứ?`)) return;
     finish();
   };
