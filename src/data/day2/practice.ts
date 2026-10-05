@@ -150,7 +150,7 @@ export const mini2: Question[] = [
     stem: 'Write ONE word in the blank (the first letters are given).', stemVi: 'Điền 1 từ vào chỗ trống (đã cho các chữ cái đầu).',
     sentence: 'The modern economy offers young people an unpre______ range of options.', answers: ['unprecedented'],
     hintLevels: H('firstLetter', 'syllables', 'meaningVi'),
-    explanation: 'an unprecedented range of options = nhiều lựa chọn chưa từng có. Chú ý mạo từ "an" → từ bắt đầu bằng nguyên âm.',
+    explanation: 'an unprecedented range of options = nhiều lựa chọn chưa từng có. Chú ý mạo từ "an" vì unprecedented bắt đầu bằng âm nguyên âm /ʌ/, không phải chỉ vì chữ cái đầu.',
     strategyTag: 'wordRecall',
   },
   {
@@ -207,7 +207,7 @@ export const mini2: Question[] = [
     id: 'd2m2-10', skillType: 'collocation', format: 'mcq', difficulty: 2, targetWords: ["follow in sb's footsteps"],
     stem: "Lan decided to follow ______ her mother's footsteps and become a teacher.",
     stemVi: 'Lan quyết định ______ mẹ và trở thành giáo viên.',
-    options: ['on', 'with', 'in', 'by'], optionsVi: ['trên', 'cùng với', 'theo (follow in sb\'s footsteps = nối nghiệp)', 'bởi'],
+    options: ['on', 'with', 'in', 'by'], optionsVi: ['trên', 'cùng với', 'theo', 'bởi'],
     answer: 2, hintLevels: H('eliminate', 'collocation', 'meaningVi'),
     explanation: 'Thành ngữ cố định: follow IN sb\'s footsteps = nối nghiệp ai.',
     distractorNotes: { 0: 'Không nói "follow on sb\'s footsteps".' },
@@ -217,7 +217,7 @@ export const mini2: Question[] = [
     id: 'd2m2-11', skillType: 'collocation', format: 'mcq', difficulty: 2, targetWords: ['contempt'],
     stem: 'Socrates complained that the young people of his time had contempt ______ authority.',
     stemVi: 'Socrates than phiền rằng giới trẻ thời ông ______ quyền uy.',
-    options: ['with', 'for', 'about', 'to'], optionsVi: ['với', 'đối với (contempt for = khinh thường)', 'về', 'đến'],
+    options: ['with', 'for', 'about', 'to'], optionsVi: ['với', 'đối với', 'về', 'đến'],
     answer: 1, hintLevels: H('eliminate', 'collocation', 'meaningVi'),
     explanation: 'contempt for sb/sth = sự khinh thường đối với ai/cái gì (cụm trong bài đọc 6).',
     strategyTag: 'collocation',
@@ -274,10 +274,10 @@ export const mini3: Question[] = [
     stem: 'Parents who have built a family business often expect their children ______.',
     stemVi: 'Những bậc cha mẹ gây dựng doanh nghiệp gia đình thường mong con cái ______.',
     options: ['following in their footsteps', 'to follow in their footsteps', 'follow in their footsteps', 'that they follow in their footsteps'],
-    optionsVi: ['sai ngữ pháp (expect không đi với V-ing)', 'nối nghiệp mình', 'sai ngữ pháp (thiếu "to")', 'sai ngữ pháp (expect sb that…)'],
+    optionsVi: ['đang nối nghiệp mình', 'nối nghiệp mình', 'nối nghiệp mình', 'rằng họ nối nghiệp mình'],
     answer: 1, hintLevels: H('eliminate', 'eliminateTwo', 'meaningVi'),
     explanation: 'Cấu trúc: expect sb TO do sth (mong ai làm gì). Ý lấy từ bài đọc 4.',
-    distractorNotes: { 3: 'Có thể nói "expect that their children will…", nhưng không nói "expect their children that…".' },
+    distractorNotes: { 0: 'expect + người + to V, không dùng V-ing ở vị trí này.', 2: 'Thiếu to trước động từ follow.', 3: 'Có thể nói "expect that their children will…", nhưng không nói "expect their children that…".' },
     strategyTag: 'sentenceFill',
   },
   {
@@ -286,10 +286,10 @@ export const mini3: Question[] = [
     stem: 'Careers in digital media are often viewed with suspicion by older relatives, ______.',
     stemVi: 'Các nghề trong lĩnh vực truyền thông số thường bị những người thân lớn tuổi nhìn với ánh mắt nghi ngại, ______.',
     options: ['which associate success with medicine or law', 'they associate success with medicine or law', 'who associate success with medicine or law', 'associated success with medicine or law'],
-    optionsVi: ['sai ngữ pháp ("which" không dùng cho người)', 'sai ngữ pháp (2 mệnh đề nối bằng dấu phẩy)', 'những người gắn thành công với nghề y hoặc luật', 'sai ngữ pháp (bị động sai nghĩa)'],
+    optionsVi: ['cái mà gắn thành công với nghề y hoặc luật', 'họ gắn thành công với nghề y hoặc luật', 'những người gắn thành công với nghề y hoặc luật', 'đã gắn thành công với nghề y hoặc luật'],
     answer: 2, hintLevels: H('eliminate', 'eliminateTwo', 'meaningVi'),
     explanation: 'Mệnh đề quan hệ không xác định bổ nghĩa cho "older relatives" (người) → dùng "who". Câu lấy ý từ bài đọc 4.',
-    distractorNotes: { 0: '"which" dùng cho vật, không dùng cho người.', 3: 'Rút gọn chủ động phải dùng V-ing (associating), không dùng V3.' },
+    distractorNotes: { 0: '"which" dùng cho vật, không dùng cho người.', 1: 'Hai mệnh đề độc lập không thể nối chỉ bằng dấu phẩy.', 3: 'Rút gọn chủ động phải dùng V-ing (associating), không dùng V3.' },
     strategyTag: 'sentenceFill',
   },
   {
@@ -309,7 +309,7 @@ export const mini3: Question[] = [
     options: ['wisdom', 'tradition', 'bias', 'experience'], optionsVi: ['sự khôn ngoan', 'truyền thống', 'thành kiến, thiên vị', 'kinh nghiệm'],
     answer: 2, hintLevels: H('eliminate', 'meaningEn', 'meaningVi'),
     explanation: 'prejudice = bias (định kiến, thành kiến). "dismiss … as mere" cho thấy từ này mang nghĩa tiêu cực.',
-    distractorNotes: { 1: 'tradition là nghĩa tích cực/trung tính — không hợp với "dismiss … as mere".' }, strategyTag: 'synonymAntonym',
+    distractorNotes: { 1: 'tradition = truyền thống, không đồng nghĩa với định kiến. Một truyền thống có thể bị phê phán, nên cần dựa vào nghĩa của PREJUDICE, không chỉ dựa vào sắc thái câu.' }, strategyTag: 'synonymAntonym',
   },
   {
     id: 'd2m3-8', skillType: 'antonym', format: 'mcq', difficulty: 2, targetWords: ['rebellious'],
@@ -355,7 +355,7 @@ export const mini3: Question[] = [
   {
     id: 'd2m3-12', skillType: 'wordForm', format: 'categorize', difficulty: 2,
     targetWords: ['prestige', 'prejudice', 'constraint', 'inherit', 'reinforce', 'eliminate', 'symbolic', 'domestic', 'unprecedented'],
-    stem: 'Sort the words by part of speech.', stemVi: 'Phân loại các từ theo loại từ.',
+    stem: 'Sort the words by their part of speech as used in passages 4–6.', stemVi: 'Phân loại các từ theo loại từ được dùng trong bài đọc 4–6.',
     categories: ['Noun', 'Verb', 'Adjective'],
     items: [
       { text: 'prestige', cat: 0 }, { text: 'inherit', cat: 1 }, { text: 'symbolic', cat: 2 },
@@ -363,6 +363,6 @@ export const mini3: Question[] = [
       { text: 'constraint', cat: 0 }, { text: 'eliminate', cat: 1 }, { text: 'unprecedented', cat: 2 },
     ],
     hintLevels: [{ type: 'custom', text: 'Hậu tố -ate thường là động từ; -ic, -ed thường là tính từ.' }, { type: 'custom', text: 'Có 3 từ mỗi nhóm.' }, { type: 'custom', text: 'Động từ: inherit, reinforce, eliminate.' }],
-    explanation: 'Nhận biết loại từ giúp làm nhanh câu word form ở Phần 1 của đề.', strategyTag: 'wordForm',
+    explanation: 'Trong bài 4–6: prestige, prejudice, constraint là danh từ; inherit, reinforce, eliminate là động từ; symbolic, domestic, unprecedented là tính từ. Một từ có thể thuộc nhiều loại: prejudice cũng có thể là động từ, nhưng trong mere prejudice của bài 5 nó là danh từ. Hãy xét cách dùng trong câu, không chỉ nhìn hậu tố.', strategyTag: 'wordForm',
   },
 ];
