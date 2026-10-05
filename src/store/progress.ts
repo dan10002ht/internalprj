@@ -64,9 +64,10 @@ const emptySection = (): SectionProgress => ({
 
 /** Một học sinh duy nhất, tiến độ lưu localStorage của máy đang dùng */
 const STUDENT_ID = 'student';
+// Bản trống chưa có thay đổi phải nhường bản server khi GET được thử lại.
 const blankStudent = (): StudentProgress => ({
   studentId: STUDENT_ID, studentName: 'Học sinh', sections: {}, vocabMastery: {},
-  lookups: {}, wordBook: [], wrongBank: [], totalTimeSpent: 0, updatedAt: new Date().toISOString(),
+  lookups: {}, wordBook: [], wrongBank: [], totalTimeSpent: 0, updatedAt: '1970-01-01T00:00:00.000Z',
 });
 
 /** Thêm từ vào Sổ từ, không trùng lặp (giữ nguồn đầu tiên) */
@@ -82,15 +83,15 @@ export const useProgress = create<ProgressState>()(
       ownerId: null,
       unlockAll: false,
       rename: (name) =>
-        set((s) => ({ student: { ...s.student, studentName: name.trim() || 'Học sinh' } })),
+        set((s) => ({ student: { ...s.student, studentName: name.trim() || 'Học sinh', updatedAt: new Date().toISOString() } })),
       replaceStudent: (ownerId, data) =>
         set({ ownerId, student: data ? { ...blankStudent(), ...data } : blankStudent() }),
       setUnlockAll: (v) => set({ unlockAll: v }),
-      reset: () => set((s) => ({ student: { ...blankStudent(), studentName: s.student.studentName } })),
+      reset: () => set((s) => ({ student: { ...blankStudent(), studentName: s.student.studentName, updatedAt: new Date().toISOString() } })),
       removeFromWordBook: (word) =>
-        set((s) => ({ student: { ...s.student, wordBook: s.student.wordBook.filter((e) => e.word !== word) } })),
+        set((s) => ({ student: { ...s.student, wordBook: s.student.wordBook.filter((e) => e.word !== word), updatedAt: new Date().toISOString() } })),
       addToWordBook: (dayId, word, source) =>
-        set((s) => ({ student: { ...s.student, wordBook: pushWord(s.student, dayId, word, source) } })),
+        set((s) => ({ student: { ...s.student, wordBook: pushWord(s.student, dayId, word, source), updatedAt: new Date().toISOString() } })),
       addLookup: (dayId, word) =>
         set((s) => {
           const list = s.student.lookups?.[dayId] ?? [];
@@ -101,6 +102,7 @@ export const useProgress = create<ProgressState>()(
               lookups: { ...s.student.lookups, [dayId]: [...list, word] },
               // Từ đã tra tự vào Sổ từ (V2 → V8)
               wordBook: pushWord(s.student, dayId, word, 'lookup'),
+              updatedAt: new Date().toISOString(),
             },
           };
         }),
