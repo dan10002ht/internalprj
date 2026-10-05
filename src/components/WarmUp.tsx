@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { previousVocab } from '@/data';
+import { useSession } from '@/components/auth/SessionProvider';
 import { meaningQuestion } from '@/lib/generate';
 import { dueWords } from '@/lib/review';
 import { speak } from '@/lib/speech';
@@ -16,7 +17,15 @@ const fmt = (s: number) => `${Math.floor(Math.max(0, s) / 60)}:${String(Math.max
  * Warm-up đầu ngày — ôn lại các từ của những ngày trước đã đến hạn (mục 2.2).
  * Câu hỏi sinh tại runtime từ từ vựng, kết quả ghi vào lịch ôn nhưng không gate bài sau.
  */
-export function WarmUp({ day, section }: { day: DayContent; section: TestSection }) {
+export function WarmUp(props: { day: DayContent; section: TestSection }) {
+  const { user } = useSession();
+  const ownerId = useProgress((s) => s.ownerId);
+  // Build the fixed question pool only after this account's progress is loaded.
+  if (!user || ownerId !== user.id) return <div className="p-10 text-center text-slate-400">Đang tải…</div>;
+  return <WarmUpSession key={user.id} {...props} />;
+}
+
+function WarmUpSession({ day, section }: { day: DayContent; section: TestSection }) {
   const student = useCurrentStudent();
   const recordAttempt = useProgress((s) => s.recordAttempt);
 
