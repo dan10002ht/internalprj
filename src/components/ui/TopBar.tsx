@@ -11,7 +11,7 @@ import { Logo } from './Logo';
  * - trạng thái lưu rút thành một chấm tròn, vẫn thấy được chứ không ẩn hẳn
  */
 export function TopBar({ back, title }: { back?: { href: string; label: string }; title?: string }) {
-  const { user, saving, savedAt, logout } = useSession();
+  const { user, saving, isLoggingOut, savedAt, logout } = useSession();
   const name = user ? user.displayName || user.username : '';
   const savedLabel = saving ? 'Đang lưu…' : savedAt ? 'Đã lưu' : '';
   const savedTitle = savedAt ? `Lưu lúc ${new Date(savedAt).toLocaleString('vi-VN')}` : undefined;
@@ -48,9 +48,9 @@ export function TopBar({ back, title }: { back?: { href: string; label: string }
               </span>
               <span className="hidden max-w-32 truncate text-sm font-medium sm:inline">{name}</span>
             </span>
-            <button type="button" onClick={() => void logout()}
+            <button type="button" disabled={isLoggingOut} onClick={() => void logout()}
               className="shrink-0 whitespace-nowrap rounded-lg px-2 py-2.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-slate-900">
-              Đăng xuất
+              {isLoggingOut ? 'Đang lưu…' : 'Đăng xuất'}
             </button>
           </>
         )}
