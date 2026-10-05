@@ -68,6 +68,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [syncedFor, setSyncedFor] = useState<string | null>(null);
   const [progressReadyFor, setProgressReadyFor] = useState<string | null>(null);
   const loggingOut = useRef(false);
+  const pendingLocalSaveFor = useRef<string | null>(null);
   const logoutPromise = useRef<Promise<void> | null>(null);
   const flushProgress = useRef<(() => Promise<void>) | null>(null);
   const stopProgressLoad = useRef<(() => void) | null>(null);
@@ -125,7 +126,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       if (retryTimer) clearTimeout(retryTimer);
       retryTimer = null;
       inFlight = true;
-      const { ownerId, student, replaceStudent } = useProgress.getState();
+      const studentBeforeLoad = useProgress.getState().student;
       try {
         const r = await fetch('/api/progress', { cache: 'no-store', signal: controller.signal });
         if (r.status === 401) unauthorized = true;
@@ -133,12 +134,18 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         const d = (await r.json()) as { progress: StudentProgress | null; updatedAt: string | null };
         if (!alive || loggingOut.current) return;
 
+        // GET may finish after a local attempt: compare against the current store.
+        const { ownerId, student, replaceStudent } = useProgress.getState();
+        pendingLocalSaveFor.current = null;
         if (ownerId !== userId) {
           // Máy này đang giữ tiến độ của người khác (hoặc chưa của ai) → lấy bản trên server
           replaceStudent(userId, d.progress);
         } else if (d.updatedAt && d.updatedAt > student.updatedAt) {
           // Server mới hơn (học sinh vừa làm ở máy khác) → lấy bản server
           replaceStudent(userId, d.progress);
+        } else if (d.updatedAt ? student.updatedAt > d.updatedAt : student !== studentBeforeLoad) {
+          // The PUT queue starts only after this successful GET.
+          pendingLocalSaveFor.current = userId;
         }
         synced = true;
         setSavedAt(d.updatedAt);
@@ -254,6 +261,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         if (active && !loggingOut.current) void push(snapshot);
       }, SAVE_DELAY_MS);
     });
+
+    // Changes made while GET was pending predate the subscription. Flush them now.
+    if (pendingLocalSaveFor.current === userId) {
+      pendingLocalSaveFor.current = null;
+      const { ownerId, student } = useProgress.getState();
+      if (ownerId === userId) void push(student);
+    }
 
     return () => {
       stop();

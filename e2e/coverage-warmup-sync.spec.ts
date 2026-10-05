@@ -170,6 +170,8 @@ test('Warm-up: GET muộn không cho local cũ ghi đè tiến độ server', as
   try {
     await page.goto(warmupUrl);
     await expect(page.locator('header')).toContainText('Câu 1/3', { timeout: 7000 });
+    // Keep this attempt older than the server to exercise the server-wins branch.
+    await page.clock.setFixedTime(new Date('2000-01-01T00:00:00.000Z'));
     for (let i = 0; i < words.length; i++) {
       await page.locator('main div.grid button').first().click();
       await page.getByRole('button', { name: 'Kiểm tra', exact: true }).click();
@@ -184,6 +186,7 @@ test('Warm-up: GET muộn không cho local cũ ghi đè tiến độ server', as
     await expect.poll(async () => page.evaluate(() =>
       JSON.parse(localStorage.getItem('td-english:v2')!).state.student.totalTimeSpent,
     )).toBe(999);
+    await page.clock.setFixedTime(new Date());
     // A real subsequent change must save the hydrated server data too.
     await page.goto(warmupUrl);
     const saved = page.waitForResponse(response =>
@@ -199,5 +202,48 @@ test('Warm-up: GET muộn không cho local cũ ghi đè tiến độ server', as
     expect(putCount).toBeGreaterThan(0);
     await expect.poll(async () => (await readServer()).wordBook.some(entry => entry.word === 'MARKER')).toBe(true);
     expect((await readServer()).totalTimeSpent).toBeGreaterThanOrEqual(999);
+  } finally { release(); }
+});
+
+test('Warm-up: hoàn tất lúc GET treo giữ kết quả local và tự PUT sau GET', async ({ page }) => {
+  await setup(page, true);
+  let release!: () => void;
+  const held = new Promise<void>(resolve => { release = resolve; });
+  let putCount = 0;
+  await page.route('**/api/progress', async route => {
+    if (route.request().method() !== 'GET') {
+      putCount++;
+      return route.continue();
+    }
+    const response = await route.fetch();
+    await held;
+    await route.fulfill({ response }).catch(() => {});
+  });
+  const localAttempts = () => page.evaluate(() =>
+    JSON.parse(localStorage.getItem('td-english:v2')!).state.student.sections['2:warmup']?.attempts,
+  );
+  try {
+    await page.goto(warmupUrl);
+    await expect(page.locator('header')).toContainText('Câu 1/3', { timeout: 7000 });
+    for (let i = 0; i < words.length; i++) {
+      await page.locator('main div.grid button').first().click();
+      await page.getByRole('button', { name: 'Kiểm tra', exact: true }).click();
+      await page.getByRole('button', { name: i < 2 ? 'Câu tiếp →' : 'Xong', exact: true }).click();
+    }
+    await expect(page.getByText(/Những từ bạn còn sai sẽ được hỏi lại/)).toBeVisible();
+    expect(await localAttempts()).toBe(1);
+    expect(putCount).toBe(0);
+    const loaded = page.waitForResponse(response =>
+      response.url().endsWith('/api/progress') && response.request().method() === 'GET' && response.ok(),
+    );
+    release();
+    await loaded;
+    // Read after hydration, not merely while the response is still held.
+    await expect.poll(async () => {
+      const { progress } = await (await page.request.get('/api/progress')).json();
+      return progress?.sections['2:warmup']?.attempts;
+    }).toBe(1);
+    expect(await localAttempts()).toBe(1);
+    expect(putCount).toBeGreaterThan(0);
   } finally { release(); }
 });
