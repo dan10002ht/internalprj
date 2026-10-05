@@ -335,6 +335,7 @@ for (const day of days) {
     let sawPrime = false;
     let sawFollowUp = false;
     let sawBonus = false;
+    let scoredQuestion = 0;
     // Traverse the real UI, including runtime bonus questions; no progress injection.
     while (true) {
       if (await page.getByRole('button', { name: /Bỏ qua, vào bài đọc/ }).isVisible()) {
@@ -362,6 +363,7 @@ for (const day of days) {
         await card(page).locator('button').first().click();
       } else {
         expect(q, stem).toBeTruthy();
+        scoredQuestion++;
         await answer(page, q!);
       }
       await page.getByRole('button', { name: 'Kiểm tra', exact: true }).click();
@@ -377,10 +379,14 @@ for (const day of days) {
       }
       const next = page.getByRole('button', { name: 'Câu tiếp →', exact: true });
       if (!await next.count()) break;
-      const current = (await page.locator('header').innerText()).match(/Câu (\d+)\//);
       await next.click();
-      // Prime replaces the header when crossing into a new passage.
-      await expect.poll(async () => (await page.getByRole('button', { name: /Bỏ qua, vào bài đọc/ }).isVisible()) || (await page.locator('header').innerText()).includes(`Câu ${Number(current![1]) + 1}/`)).toBe(true);
+      // Prime replaces the header; bonus questions do not advance the scored number.
+      await expect.poll(async () => {
+        if (await page.getByRole('button', { name: /Bỏ qua, vào bài đọc/ }).isVisible()) return true;
+        const header = await page.locator('header').innerText();
+        if (header.includes('Câu thêm')) return (await heading.innerText()) !== stem;
+        return header.includes(`Câu ${scoredQuestion + 1}/`);
+      }).toBe(true);
     }
     expect(sawPrime, 'V1 prime reached').toBe(true);
     expect(sawFollowUp, 'V3 follow-up reached').toBe(true);
