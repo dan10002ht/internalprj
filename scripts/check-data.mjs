@@ -158,6 +158,32 @@ if (firstDay) {
   }
   console.log(`Ngày 1: kiểm tra appearsIn cho ${phrases.length} cụm từ`);
 }
+// PLAN 4.5: kiểm tra cấu trúc các câu tính điểm, độc lập với câu luyện thêm sinh ở UI.
+function checkDay2ExamStructure(day) {
+  if (day.dayId !== 2) return;
+  const byId = new Map(day.questions.map((q) => [q.id, q]));
+  const expected = {
+    de1: [['d2e1-notice', 6], ['d2e1-leaflet', 6], ['p4', 10], ['p5', 10]],
+    de2: [[undefined, 5], ['d2e2-text', 5], ['p6', 10]],
+  };
+  for (const [sectionId, groups] of Object.entries(expected)) {
+    const section = day.sections.find((s) => s.id === sectionId);
+    const ids = section?.questionIds ?? [];
+    const total = groups.reduce((n, [, count]) => n + count, 0);
+    if (ids.length !== total || new Set(ids).size !== total) {
+      warn(`Ngày 2/${sectionId}: cần ${total} câu tính điểm không trùng`);
+    }
+    let offset = 0;
+    for (const [passageId, count] of groups) {
+      const group = ids.slice(offset, offset + count).map((id) => byId.get(id));
+      if (group.length !== count || group.some((q) => !q || q.passageId !== passageId || q.bonus)) {
+        warn(`Ngày 2/${sectionId}: nhóm ${passageId ?? 'sắp xếp'} phải có ${count} câu đúng thứ tự`);
+      }
+      offset += count;
+    }
+  }
+}
+for (const day of days) checkDay2ExamStructure(day);
 
 rmSync(out, { recursive: true, force: true });
 if (problems.length) {
