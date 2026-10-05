@@ -22,7 +22,7 @@ writeFileSync(
       baseUrl: path.resolve('.'),
       paths: { '@/*': ['src/*'] },
     },
-    files: [path.resolve('src/data/index.ts')],
+    files: [path.resolve('src/data/index.ts'), path.resolve('src/lib/vocabText.ts')],
   }),
 );
 try {
@@ -36,6 +36,8 @@ try {
 writeFileSync(path.join(out, 'types.js'), 'module.exports = {};');
 writeFileSync(path.join(out, 'package.json'), '{"type":"commonjs"}');
 const { days } = createRequire(import.meta.url)(path.join(out, 'data', 'index.js'));
+
+const { appearsIn } = createRequire(import.meta.url)(path.join(out, 'lib', 'vocabText.js'));
 
 const problems = [];
 const warn = (m) => problems.push(m);
@@ -126,6 +128,35 @@ for (const day of days) {
 
   const phrases = day.vocab.filter((v) => v.partOfSpeech === 'phrase').length;
   console.log(`${tag}: ${day.vocab.length} mục từ vựng (${phrases} cụm từ) · ${day.questions.length} câu hỏi · ${day.sections.length} bài`);
+}
+
+// Ngày 1: giữ cấu trúc 4.5 và bản dịch đáp án tách khỏi lời phê ngữ pháp.
+function checkDay1ExamStructure(day) {
+  const expected = {
+    de1: [...Array.from({ length: 12 }, (_, i) => `d1e1-${i + 1}`), ...Array.from({ length: 16 }, (_, i) => `r${i + 1}`)],
+    de2: [...Array.from({ length: 10 }, (_, i) => `d1e2-${i + 1}`), ...Array.from({ length: 8 }, (_, i) => `r${i + 17}`)],
+  };
+  for (const [sectionId, questionIds] of Object.entries(expected)) {
+    const actual = day.sections.find((section) => section.id === sectionId)?.questionIds;
+    if (JSON.stringify(actual) !== JSON.stringify(questionIds)) {
+      problems.push(`Ngày 1/${sectionId}: sai số câu hoặc thứ tự phần theo PLAN 4.5`);
+    }
+  }
+  for (const question of day.questions) {
+    if ((question.optionsVi ?? []).some((meaning) => /sai ngữ pháp|thiếu chủ ngữ|thiếu liên từ|thừa đại từ|không phải cụm có thật/.test(meaning))) {
+      problems.push(`Ngày 1/${question.id}: optionsVi chứa lời phê thay vì nghĩa dịch`);
+    }
+  }
+}
+const firstDay = days.find((day) => day.dayId === 1);
+if (firstDay) {
+  checkDay1ExamStructure(firstDay);
+  const passageText = firstDay.passages.map((passage) => [passage.title, ...passage.paragraphs].join('\n')).join('\n');
+  const phrases = firstDay.vocab.filter((item) => item.partOfSpeech === 'phrase');
+  for (const phrase of phrases) {
+    if (!appearsIn(passageText, phrase)) problems.push(`Ngày 1: cụm "${phrase.word}" không nhận diện được trong bài đọc`);
+  }
+  console.log(`Ngày 1: kiểm tra appearsIn cho ${phrases.length} cụm từ`);
 }
 
 rmSync(out, { recursive: true, force: true });
